@@ -16,6 +16,8 @@ def main():
     end = datetime.datetime.now()
     print(f"所要時間：{(end-start).seconds}秒かかりました")
 
+
+#問題を表示する関数
 def shutudai():
 
     eng = string.ascii_uppercase
@@ -31,6 +33,8 @@ def shutudai():
     print(f"欠損文字は：{keng}")
     return keng
 
+
+#解答を表示する関数
 def kaitou(seikai):
     ans = int(input("欠損文字はいくつあるでしょうか？："))
     if ans != kcount:
