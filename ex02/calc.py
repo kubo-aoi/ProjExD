@@ -40,7 +40,6 @@ if __name__ == "__main__":
         if i%3==0:
             rnum+=1
             cnum=0
-        #button.pack()
     
     btn = tk.Button(root, text="=", font=("Time New Roman", 40),
                     bg="white")
