@@ -19,7 +19,7 @@ def ac_click(event):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.title("練習問題:calc.py")
+    root.title("練習問題:これから最強になる電卓")
     #root.geometry("300x600")
 
     entry=tk.Entry(root, justify="right", width=10, font=("Times New Roman", 40),
