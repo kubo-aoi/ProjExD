@@ -31,7 +31,7 @@ if __name__ == "__main__":
     cnum = 0
     numlist = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0, "+", "-", "*", "/"]
     for i, num in enumerate(numlist, 1):
-        button = tk.Button(root, text=str(num),
+        button = tk.Button(root, text=str(num),      #数字と演算子のボタン
                            font=("Corben", 40), 
                            bg="#58A4B0", fg="white") #背景を青系の色に設定、文字を白に設定
         button.grid(row=rnum, column=cnum, sticky=tk.NSEW)
