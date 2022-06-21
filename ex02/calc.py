@@ -23,7 +23,7 @@ if __name__ == "__main__":
     #root.geometry("300x600")
 
     entry=tk.Entry(root, justify="right", width=10, font=("Times New Roman", 40),
-                    bg="white")
+                    bg="white") #背景を白に設定
     entry.grid(row=0, column=1, columnspan=5)
 
 
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     for i, num in enumerate(numlist, 1):
         button = tk.Button(root, text=str(num),
                            font=("Corben", 40), 
-                           bg="#58A4B0", fg="white")
+                           bg="#58A4B0", fg="white") #背景を青系の色に設定、文字を白に設定
         button.grid(row=rnum, column=cnum, sticky=tk.NSEW)
         button.bind("<1>", button_click)
         cnum+=1
@@ -42,12 +42,12 @@ if __name__ == "__main__":
             cnum=0
     
     btn = tk.Button(root, text="=", font=("Time New Roman", 40),
-                    bg="white")
+                    bg="white") #背景を白に設定
     btn.bind("<1>", click)
     btn.grid(row=rnum, column=cnum, sticky=tk.NSEW)
 
     ac = tk.Button(root, text="AC", font=("Times New Roman", 40),
-                    bg="red")
+                    bg="red") #ボタンの背景を赤に設定
     ac.bind("<1>", ac_click)
     ac.grid(row=rnum, column=cnum+1, sticky=tk.NSEW)
 
