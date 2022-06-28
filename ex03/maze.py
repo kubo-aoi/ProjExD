@@ -5,6 +5,7 @@ if __name__ == "__main__":
     root.title("迷えるこうかとん")
 
     canvas = tk.Canvas(root, width=1500, height=900, bg="black")
-    label = tk.Label(root, text="koukaton", font=("Times New Roman", 80))
-    label.pack()
+    canvas.pack()
+    #tori = tk.PhotoImage(file="")
+    #cx, cy = 300, 400
     root.mainloop()
