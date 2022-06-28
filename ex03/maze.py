@@ -41,7 +41,7 @@ def main_proc():
                     bg="white") #背景を白に設定
             entry.grid(row=0, column=1, columnspan=5)
 
-    
+#ゴールに着いた時の判定
 def game_clear(self):
         #self.playing=False
 
@@ -80,6 +80,7 @@ if __name__ == "__main__":
     key = ""
     root.bind("<KeyPress>", key_down)
     root.bind("<KeyRelease>", key_up)
+#ゴールについたときに文字を表示する
     if mx == 14:
         if my == 8:
             tkm.showwarning(f"GOAL!!!!!Congraturation")
