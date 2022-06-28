@@ -6,6 +6,7 @@ if __name__ == "__main__":
 
     canvas = tk.Canvas(root, width=1500, height=900, bg="black")
     canvas.pack()
-    #tori = tk.PhotoImage(file="")
-    #cx, cy = 300, 400
+    koukaton = tk.PhotoImage(file="fig/0.png")
+    cx, cy = 300, 400
+    canvas.create_image(cx, cy, image=koukaton, tag="koukaton")
     root.mainloop()
