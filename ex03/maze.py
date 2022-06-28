@@ -62,7 +62,7 @@ def game_clear(self):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.title("迷えるこうかとん")
+    root.title("迷子のにゃんこ")
 
     canvas = tk.Canvas(root, width=1500, height=900, bg="blue")
     canvas.pack()
