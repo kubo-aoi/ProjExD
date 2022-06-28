@@ -34,6 +34,9 @@ if __name__ == "__main__":
 
     canvas = tk.Canvas(root, width=1500, height=900, bg="black")
     canvas.pack()
+    maze_bg = mm.make_maze(15, 9)
+    #mm.show_maze(canvas, maze_bg)
+
     koukaton = tk.PhotoImage(file="fig/0.png")
     cx, cy = 300, 400
     canvas.create_image(cx, cy, image=koukaton, tag="koukaton")
