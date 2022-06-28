@@ -43,7 +43,7 @@ def main_proc():
 
     
 def game_clear(self):
-        self.playing=False
+        #self.playing=False
 
         self.canvas.create_text(
             750,
