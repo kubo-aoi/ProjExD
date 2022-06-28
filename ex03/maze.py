@@ -1,13 +1,14 @@
 import tkinter as tk
 
-def key_up():
+def key_up(event):
     global key
     key = ""
 
 def key_down(event):
     global key
     key = event.keysym
-    print(f"{key}キーが押されました")
+    #print(f"{key}キーが押されました")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
@@ -21,5 +22,5 @@ if __name__ == "__main__":
 
     key = ""
     root.bind("<KeyPress>", key_down)
-    root.bind("<KeyRelease>", key_up())
+    root.bind("<KeyRelease>", key_up)
     root.mainloop()
