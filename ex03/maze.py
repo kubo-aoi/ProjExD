@@ -37,6 +37,9 @@ def main_proc():
     if mx == 14:
         if my == 8:
             game_clear()
+            entry=tk.Entry(root, justify="right", width=10, font=("Terminal", 40),
+                    bg="white") #背景を白に設定
+            entry.grid(row=0, column=1, columnspan=5)
 
     
 def game_clear(self):
@@ -61,7 +64,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.title("迷えるこうかとん")
 
-    canvas = tk.Canvas(root, width=1500, height=900, bg="white")
+    canvas = tk.Canvas(root, width=1500, height=900, bg="blue")
     canvas.pack()
     maze_bg = mm.make_maze(15, 9)
     print(maze_bg)
@@ -80,6 +83,12 @@ if __name__ == "__main__":
     if mx == 14:
         if my == 8:
             tkm.showwarning(f"GOAL!!!!!Congraturation")
+            entry=tk.Entry(root, justify="right", width=10, font=("Terminal", 40),
+                    bg="white") #背景を白に設定
+    entry.grid(row=0, column=1, columnspan=5)
     main_proc()
+
+    #start = tk.Label(text="START", foreground="white", background="red")
+    #start.place(-33, -50)
     
     root.mainloop()
