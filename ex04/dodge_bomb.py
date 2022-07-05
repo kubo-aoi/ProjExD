@@ -1,5 +1,6 @@
 import pygame as pg
 import sys
+import random
 
 def main():
     clock = pg.time.Clock()
@@ -17,11 +18,22 @@ def main():
 
     while True:
         screen_sfc.blit(bgimg_sfc, bgimg_rct)
-        screen_sfc.blit(kkimg_sfc, kkimg_rct)
-        
+
         for event in pg.event.get():              # イベントを繰り返して処理
             if event.type == pg.QUIT:             # ウィンドウの×ボタンをクリックしたら
                 return
+        
+        key_states = pg.key.get_pressed()         # keyの辞書
+        if key_states[pg.K_UP] == True:           # ↑が押されたら
+            kkimg_rct.centery -= 1                # y座標を-1
+        if key_states[pg.K_DOWN] == True:
+            kkimg_rct.centery += 1
+        if key_states[pg.K_LEFT] == True:
+            kkimg_rct.centerx -= 1
+        if key_states[pg.K_RIGHT] == True:
+            kkimg_rct.centerx += 1
+        
+        screen_sfc.blit(kkimg_sfc, kkimg_rct)
         
         pg.display.update()
         clock.tick(1000)
