@@ -40,6 +40,16 @@ def main():
     bmimg_rct2.centerx = randint(0,screen_rct.width)     #爆弾のx座標をランダムに決定
     bmimg_rct2.centery = randint(0,screen_rct.height)    #爆弾のy座標をランダムに決定
 
+    #爆弾3
+    '''
+    bomb2=pg.image.load("fig/baku.jpg")
+    bomb2 = pg.transform.rotozoom(bomb2,0,2.5)
+    bomb2_rect = bomb2.get_rect()                             #爆弾用rect
+    bomb2_rect.centerx = randint(0,screen_rct.width)     #爆弾のx座標をランダムに決定
+    bomb2_rect.centery = randint(0,screen_rct.height)    #爆弾のy座標をランダムに決定
+    vn, vm = +1, +1  
+    '''
+
     vx, vy = +1, +1
     dx, dy = +2, +2
 
@@ -74,13 +84,13 @@ def main():
         screen_sfc.blit(kkimg_sfc, kkimg_rct)
 
          #　爆弾の移動
-        bmimg_rct.move_ip(vx,vy)                    #爆弾用のrectを移動する
+        bmimg_rct.move_ip(vx,vy)                    #1個目の爆弾用のrectを移動する
         screen_sfc.blit(bmimg_sfc, bmimg_rct)                #爆弾の画像を貼り付ける
         yoko, tate = check_bound(screen_rct, bmimg_rct)       #check_bound()関数で画面外にいるかの判定
         vx *= yoko                               #横方向に画面外なら、横方向速度の符号反転
         vy *= tate                               #縦方向に画面外なら、縦方向速度の符号反転
 
-        bmimg_rct2.move_ip(dx,dy)                    #爆弾用のrectを移動する
+        bmimg_rct2.move_ip(dx,dy)                    #2個目の爆弾
         screen_sfc.blit(bmimg_sfc2, bmimg_rct2)                #爆弾の画像を貼り付ける
         yo, ta = check_bound(screen_rct, bmimg_rct2)       #check_bound()関数で画面外にいるかの判定
         dx *= yo                              #横方向に画面外なら、横方向速度の符号反転
@@ -98,8 +108,7 @@ def main():
         if kkimg_rct.colliderect(bmimg_rct2) == True: #toriがbombと重なったらTrue
             return
         
-        time2 = ti.time()
-        print("ゲーム経過時間："+time2-time1)
+        
         
         pg.display.update()
         clock.tick(1000)
@@ -112,13 +121,13 @@ def check_bound(sc_r, obj_r):     #引数は、画面用Rect,{こうかとん,�
     if obj_r.top < sc_r.top or sc_r.bottom < obj_r.bottom:
         y = -1   #画面外に行ったらy=-1
     return x, y
-
+'''
 def create_modeless_dialog(self):
-        '''モードレスダイアログボックスの作成'''
+        #モードレスダイアログボックスの作成
         dlg_modeless = tk.Toplevel(self)
         dlg_modeless.title("Modeless Dialog")   # ウィンドウタイトル
         dlg_modeless.geometry("300x200") 
-
+'''
 if __name__ == "__main__":
     pg.init()
     main()
