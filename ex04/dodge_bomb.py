@@ -48,15 +48,25 @@ def main():
          #　爆弾の移動
         bmimg_rct.move_ip(vx,vy)                    #爆弾用のrectを移動する
         screen_sfc.blit(bmimg_sfc, bmimg_rct)                #爆弾の画像を貼り付ける
-        #ret = check_bound(sc_rect, bomb_rect)       #check_bound()関数で画面外にいるかの判定
-        #vx *= ret[0]                                #横方向に画面外なら、横方向速度の符号反転
-        #vy *= ret[1]                                #縦方向に画面外なら、縦方向速度の符号反転
+        ret = check_bound(screen_rct, bmimg_rct)       #check_bound()関数で画面外にいるかの判定
+        vx *= ret[0]                                #横方向に画面外なら、横方向速度の符号反転
+        vy *= ret[1]                                #縦方向に画面外なら、縦方向速度の符号反転
 
         screen_sfc.blit(bmimg_sfc, bmimg_rct)
 
+        #　爆弾の当たり判定
+        if kkimg_rct.colliderect(bmimg_rct) == True: #toriがbombと重なったらTrue
+            return #終了(mainから抜ける)
         
         pg.display.update()
         clock.tick(1000)
+
+def check_bound(sc_r, obj_r):     #引数は、画面用Rect,{こうかとん,爆弾]Rect
+    #画面内なら：+1 / 画面外なら：-1を返す
+    x, y = +1, +1
+    if obj_r.left < sc_r.left or sc_r.right < obj_r.right: x = -1   #画面外に行ったらx=-1
+    if obj_r.top < sc_r.top or sc_r.bottom < obj_r.bottom: y = -1   #画面外に行ったらy=-1
+    return x, y
 
 if __name__ == "__main__":
     pg.init()
