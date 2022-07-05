@@ -1,6 +1,6 @@
 import pygame as pg
 import sys
-import random
+from random import randint
 
 def main():
     clock = pg.time.Clock()
@@ -15,6 +15,15 @@ def main():
     kkimg_sfc = pg.transform.rotozoom(kkimg_sfc, 0, 2.0)
     kkimg_rct = kkimg_sfc.get_rect()
     kkimg_rct.center = 900, 400
+
+    #爆弾
+    bomb = pg.Surface((20,20))                              #爆弾用のsurface
+    pg.draw.circle(bomb, (255,0,0),(10,10),10)              #爆弾用surfaceに円を描く。色、中心、半径を指定
+    bomb_rct = bomb.get_rect()                             #爆弾用rect
+    bomb_rct.centerx = randint(0,screen_rct.width)     #爆弾のx座標をランダムに決定
+    bomb_rct.centery = randint(0,screen_rct.height)    #爆弾のy座標をランダムに決定
+                               #爆弾用surfaceを画面用surfaceに貼り付ける
+    vx, vy = +1, +1
 
     while True:
         screen_sfc.blit(bgimg_sfc, bgimg_rct)
