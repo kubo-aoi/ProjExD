@@ -42,15 +42,24 @@ def main():
             kkimg_rct.centerx -= 1
         if key_states[pg.K_RIGHT] == True:
             kkimg_rct.centerx += 1
+        if check_bound(screen_rct,kkimg_rct) != (1,1):     #移動後に画面範囲内か
+                    if key_states[pg.K_UP] == True:           # ↑が押されたら
+                        kkimg_rct.centery += 1                # y座標を-1
+                    if key_states[pg.K_DOWN] == True:
+                        kkimg_rct.centery -= 1
+                    if key_states[pg.K_LEFT] == True:
+                        kkimg_rct.centerx += 1
+                    if key_states[pg.K_RIGHT] == True:
+                        kkimg_rct.centerx -= 1
         
         screen_sfc.blit(kkimg_sfc, kkimg_rct)
 
          #　爆弾の移動
         bmimg_rct.move_ip(vx,vy)                    #爆弾用のrectを移動する
         screen_sfc.blit(bmimg_sfc, bmimg_rct)                #爆弾の画像を貼り付ける
-        ret = check_bound(screen_rct, bmimg_rct)       #check_bound()関数で画面外にいるかの判定
-        vx *= ret[0]                                #横方向に画面外なら、横方向速度の符号反転
-        vy *= ret[1]                                #縦方向に画面外なら、縦方向速度の符号反転
+        yoko, tate = check_bound(screen_rct, bmimg_rct)       #check_bound()関数で画面外にいるかの判定
+        vx *= yoko                               #横方向に画面外なら、横方向速度の符号反転
+        vy *= tate                               #縦方向に画面外なら、縦方向速度の符号反転
 
         screen_sfc.blit(bmimg_sfc, bmimg_rct)
 
