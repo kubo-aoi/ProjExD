@@ -1,116 +1,168 @@
 import pygame as pg
 import sys
-from random import randint
-import time as ti
-import tkinter as tk
+import random
 
+
+class Screen:
+    def __init__(self, title, widhei, imgfile):
+        pg.display.set_caption(title)
+        self.sfc = pg.display.set_mode(widhei)        # Surface
+        self.rct = self.sfc.get_rect()                # Rect
+        self.bgi_sfc = pg.image.load(imgfile)         # Surface
+        self.bgi_rct = self.bgi_sfc.get_rect()        # Rect
+    
+    def blit(self):
+        self.sfc.blit(self.bgi_sfc, self.bgi_rct)
+
+
+class Bird:
+    def __init__(self, imgfile, size, zahyou):
+        self.sfc = pg.image.load(imgfile)             # Surface
+        self.sfc = pg.transform.rotozoom(self.sfc, 0, size)  # Surface
+        self.rct = self.sfc.get_rect()                # Rect
+        self.rct.center = zahyou
+    
+    def blit(self, screen: Screen):
+        screen.sfc.blit(self.sfc, self.rct)           #screen_sfc.blit(kkimg_sfc, kkimg_rct)
+
+    def update(self, screen:Screen):
+        key_states = pg.key.get_pressed() # 辞書
+        if key_states[pg.K_UP]:
+            self.rct.centery -= 1
+        if key_states[pg.K_DOWN]:
+            self.rct.centery += 1
+        if key_states[pg.K_LEFT]:
+            self.rct.centerx -= 1
+        if key_states[pg.K_RIGHT]:
+            self.rct.centerx += 1
+        # 練習7
+        if check_bound(self.rct, screen.rct) != (1, 1): # 領域外だったら
+                if key_states[pg.K_UP]:
+                    self.rct.centery += 1
+                if key_states[pg.K_DOWN]:
+                    self.rct.centery -= 1
+                if key_states[pg.K_LEFT]:
+                    self.rct.centerx += 1
+                if key_states[pg.K_RIGHT]:
+                    self.rct.centerx -= 1
+        self.blit(screen)
+
+
+class Bomb:
+    def __init__(self, color, size, vxy, screen:Screen):
+        self.sfc = pg.Surface((20*size, 2*size)) # Surface
+        self.sfc.set_colorkey((0, 0, 0)) 
+        pg.draw.circle(self.sfc, color, (size, size), size)
+        self.rct = self.sfc.get_rect() # Rect
+        self.rct.centerx = random.randint(0, screen.rct.width)
+        self.rct.centery = random.randint(0, screen.rct.height)
+        self.vx, self.vy = vxy
+    
+    def blit(self, screen: Screen):
+        screen.sfc.blit(self.sfc, self.rct)
+
+    def update(self, screen:Screen):
+        # 練習6
+        self.rct.move_ip(self.vx, self.vy)
+        # 練習7
+        yoko, tate = check_bound(self.rct, screen.rct)
+        self.vx *= yoko
+        self.vy *= tate
+        # 練習5
+        #screen.sfc.blit(self.sfc, self.rct)
+        self.blit(screen)
 
 def main():
-    
-    time1 = ti.time()
-
     clock = pg.time.Clock()
+    '''
+    # 練習1：スクリーンと背景画像
     pg.display.set_caption("逃げろ！こうかとん")
-    screen_sfc = pg.display.set_mode((1800, 950)) # Surface
+    screen_sfc = pg.display.set_mode((1600, 900)) # Surface
     screen_rct = screen_sfc.get_rect()            # Rect
-
-    bgimg_sfc = pg.image.load("fig/yoru.jpg")    # Surface
+    bgimg_sfc = pg.image.load("fig/pg_bg.jpg")    # Surface
     bgimg_rct = bgimg_sfc.get_rect()              # Rect
     screen_sfc.blit(bgimg_sfc, bgimg_rct)
-    
-    kkimg_sfc = pg.image.load("fig/3.png")
-    kkimg_sfc = pg.transform.rotozoom(kkimg_sfc, 0, 2.0)
-    kkimg_rct = kkimg_sfc.get_rect()
+    '''
+    scr = Screen("逃げろ！こうかとん", (1800, 950), "fig/yoru.jpg")
+
+    # 練習3：こうかとん
+    '''
+    kkimg_sfc = pg.image.load("fig/6.png")    # Surface
+    kkimg_sfc = pg.transform.rotozoom(kkimg_sfc, 0, 2.0)  # Surface
+    kkimg_rct = kkimg_sfc.get_rect()          # Rect
     kkimg_rct.center = 900, 400
-
-    #爆弾1
-    bmimg_sfc = pg.Surface((40,40))  
-    bmimg_sfc.set_colorkey((0, 0, 0))                            #爆弾用のsurface
-    pg.draw.circle(bmimg_sfc, (255,255,255),(20,20),20)              #爆弾用surfaceに円を描く。色、中心、半径を指定
-    bmimg_rct = bmimg_sfc.get_rect()                             #爆弾用rect
-    bmimg_rct.centerx = randint(0,screen_rct.width)     #爆弾のx座標をランダムに決定
-    bmimg_rct.centery = randint(0,screen_rct.height)    #爆弾のy座標をランダムに決定
-                               #爆弾用surfaceを画面用surfaceに貼り付ける
-
-    #爆弾2
-    bmimg_sfc2 = pg.Surface((20,20))  
-    bmimg_sfc2.set_colorkey((0, 0, 0))                            #爆弾用のsurface
-    pg.draw.circle(bmimg_sfc2, (255,0,0),(10,10),10)              #爆弾用surfaceに円を描く。色、中心、半径を指定
-    bmimg_rct2 = bmimg_sfc2.get_rect()                             #爆弾用rect
-    bmimg_rct2.centerx = randint(0,screen_rct.width)     #爆弾のx座標をランダムに決定
-    bmimg_rct2.centery = randint(0,screen_rct.height)    #爆弾のy座標をランダムに決定
-
+    '''
+    kkt = Bird("fig/6.png", 2.0, (900, 400))
+    '''
+    # 練習5：爆弾
+    bmimg_sfc = pg.Surface((20, 20)) # Surface
+    bmimg_sfc.set_colorkey((0, 0, 0)) 
+    pg.draw.circle(bmimg_sfc, (255, 0, 0), (10, 10), 10)
+    bmimg_rct = bmimg_sfc.get_rect() # Rect
+    bmimg_rct.centerx = random.randint(0, screen.rct.width)
+    bmimg_rct.centery = random.randint(0, screen.rct.height)
     vx, vy = +1, +1
-    dx, dy = +2, +2
+    '''
+
+     # 練習6
+    bkd = Bomb((255, 0, 0), 10, (+1, +1), scr)  #赤、速度１
 
     while True:
-        screen_sfc.blit(bgimg_sfc, bgimg_rct)
+        scr.blit()
+        #screen_sfc.blit(bgimg_sfc, bgimg_rct)
 
-        #pg.draw.ellipse(screen_sfc, (255,0,255), (400,300,200,100))
-
-        for event in pg.event.get():              # イベントを繰り返して処理
-            if event.type == pg.QUIT:             # ウィンドウの×ボタンをクリックしたら
-                return
-        
-        key_states = pg.key.get_pressed()         # keyの辞書
-        if key_states[pg.K_UP] == True:           # ↑が押されたら
-            kkimg_rct.centery -= 1                # y座標を-1
-        if key_states[pg.K_DOWN] == True:
-            kkimg_rct.centery += 1
-        if key_states[pg.K_LEFT] == True:
-            kkimg_rct.centerx -= 1
-        if key_states[pg.K_RIGHT] == True:
-            kkimg_rct.centerx += 1
-        if check_bound(screen_rct,kkimg_rct) != (1,1):     #移動後に画面範囲内か
-                    if key_states[pg.K_UP] == True:           # ↑が押されたら
-                        kkimg_rct.centery += 1                # y座標を-1
-                    if key_states[pg.K_DOWN] == True:
-                        kkimg_rct.centery -= 1
-                    if key_states[pg.K_LEFT] == True:
-                        kkimg_rct.centerx += 1
-                    if key_states[pg.K_RIGHT] == True:
-                        kkimg_rct.centerx -= 1
-        
-        screen_sfc.blit(kkimg_sfc, kkimg_rct)
-
-         #　爆弾の移動
-        bmimg_rct.move_ip(vx,vy)                    #1個目の爆弾用のrectを移動する
-        screen_sfc.blit(bmimg_sfc, bmimg_rct)                #爆弾の画像を貼り付ける
-        yoko, tate = check_bound(screen_rct, bmimg_rct)       #check_bound()関数で画面外にいるかの判定
-        vx *= yoko                               #横方向に画面外なら、横方向速度の符号反転
-        vy *= tate                               #縦方向に画面外なら、縦方向速度の符号反転
-
-        bmimg_rct2.move_ip(dx,dy)                    #2個目の爆弾
-        screen_sfc.blit(bmimg_sfc2, bmimg_rct2)                #爆弾の画像を貼り付ける
-        yo, ta = check_bound(screen_rct, bmimg_rct2)       #check_bound()関数で画面外にいるかの判定
-        dx *= yo                              #横方向に画面外なら、横方向速度の符号反転
-        dy *= ta 
-
+        # 練習2
+        for event in pg.event.get():
+            if event.type == pg.QUIT: return
+        '''
+        # 練習4
+        key_states = pg.key.get_pressed() # 辞書
+        if key_states[pg.K_UP]    == True: kkimg_rct.centery -= 1
+        if key_states[pg.K_DOWN]  == True: kkimg_rct.centery += 1
+        if key_states[pg.K_LEFT]  == True: kkimg_rct.centerx -= 1
+        if key_states[pg.K_RIGHT] == True: kkimg_rct.centerx += 1
+        # 練習7
+        if check_bound(kkimg_rct, screen_rct) != (1, 1): # 領域外だったら
+            if key_states[pg.K_UP]    == True: kkimg_rct.centery += 1
+            if key_states[pg.K_DOWN]  == True: kkimg_rct.centery -= 1
+            if key_states[pg.K_LEFT]  == True: kkimg_rct.centerx += 1
+            if key_states[pg.K_RIGHT] == True: kkimg_rct.centerx -= 1
+        #screen_sfc.blit(kkimg_sfc, kkimg_rct)
+        '''
+        kkt.update(scr)
+        '''
+        # 練習6
+        bmimg_rct.move_ip(vx, vy)
+        # 練習5
         screen_sfc.blit(bmimg_sfc, bmimg_rct)
+        # 練習7
+        yoko, tate = check_bound(bmimg_rct, screen_rct)
+        vx *= yoko
+        vy *= tate
+        '''
+        bkd.update(scr)
 
-        #　爆弾の当たり判定
-        if kkimg_rct.colliderect(bmimg_rct) == True: #toriがbombと重なったらTrue
-            #pg.time.get_ticks()
-            #create_modeless_dialog()
-            main()
-            return   #終了(mainから抜ける)
-        
-        if kkimg_rct.colliderect(bmimg_rct2) == True: #toriがbombと重なったらTrue
+        # 練習8
+        #if kkimg_rct.colliderect(bmimg_rct): return 
+        if kkt.rct.colliderect(bkd.rct):
             return
-        
-        
-        
+
         pg.display.update()
         clock.tick(1000)
 
-def check_bound(sc_r, obj_r):     #引数は、画面用Rect,{こうかとん,爆弾]Rect
-    #画面内なら：+1 / 画面外なら：-1を返す
-    x, y = +1, +1
-    if obj_r.left < sc_r.left or sc_r.right < obj_r.right:
-        x = -1   #画面外に行ったらx=-1
-    if obj_r.top < sc_r.top or sc_r.bottom < obj_r.bottom:
-        y = -1   #画面外に行ったらy=-1
-    return x, y
+
+# 練習7
+def check_bound(rct, scr_rct):
+    '''
+    [1] rct: こうかとん or 爆弾のRect
+    [2] scr_rct: スクリーンのRect
+    '''
+    yoko, tate = +1, +1 # 領域内
+    if rct.left < scr_rct.left or scr_rct.right  < rct.right : yoko = -1 # 領域外
+    if rct.top  < scr_rct.top  or scr_rct.bottom < rct.bottom: tate = -1 # 領域外
+    return yoko, tate
+
+
 
 if __name__ == "__main__":
     pg.init()
