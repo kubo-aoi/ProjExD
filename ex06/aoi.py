@@ -1,25 +1,22 @@
-# -*- coding: utf-8 -*-
-# maze test
 import time
 
 import numpy as np
 import pygame
 
 WIDTH = 640
-HEIGHT = 480  # 480
+HEIGHT = 480  
 
-WHITE = (0, 255, 255)
-GREEN = (0, 255, 0)
+WHITE = (152, 251, 152)
+GREEN = (70, 130, 180)
 BLUE = (0, 0, 255)
-BLACK = (0, 0, 0)
-LOAD = (255, 255, 255)
+BLACK = (70, 130, 180)
+LOAD = (244, 255, 240)
 NAVY = (0, 0, 128)
 
-#pygame初期化
 pygame.init()
 #画面オブジェクトの作成
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
+pygame.display.set_caption("ゴールにいる仲間のところへたどり着け！！")
 font1 = pygame.font.Font(None, 48)
 font2 = pygame.font.Font(None, 20)
 myclock = pygame.time.Clock()
@@ -29,7 +26,6 @@ bgy = 0  #BG offset
 size = 32  #sprite size
 
 
-# sprite class
 class Spclass(pygame.sprite.Sprite):
     # スプライトの初期化関数
     def __init__(self, x, y, filename):
@@ -103,7 +99,7 @@ class Player(Spclass):
             self.x += x1[self.dir] * 4
             self.y += y1[self.dir] * 4
             if hukidashi != 0:
-                commentimage = pygame.image.load("fig/meiro2/comment1.png").convert()
+                commentimage = pygame.image.load("fig/meiro2/don.png").convert()
                 rect_cmimage = commentimage.get_rect().move(self.x, self.y)
                 #                cmimage.fill(LOAD)
                 screen.blit(commentimage, rect_cmimage)
@@ -112,10 +108,14 @@ class Player(Spclass):
                 self.walking = 0
 
         # 画面のスクロール処理
-        if self.x - bgx < 160: bgx -= 4
-        if self.x - bgx >= WIDTH - 160: bgx += 4
-        if self.y - bgy < 160: bgy -= 4
-        if self.y - bgy >= HEIGHT - 160: bgy += 4
+        if self.x - bgx < 160:
+            bgx -= 4
+        if self.x - bgx >= WIDTH - 160:
+            bgx += 4
+        if self.y - bgy < 160:
+            bgy -= 4
+        if self.y - bgy >= HEIGHT - 160:
+            bgy += 4
         self.rect.left = self.x - bgx
         self.rect.top = self.y - bgy
         # どのクラスとぶつかっているかの衝突判定
@@ -128,12 +128,12 @@ class Player(Spclass):
                 elif hit == goal:
                     imagetext1 = font1.render("GOAL!", True, GREEN)
                     screen.blit(imagetext1, (260, 150))
-                    btn1image = pygame.image.load("fig/meiro2/retry1.png").convert()
+                    btn1image = pygame.image.load("fig/meiro2/retry.png").convert()
                     rect_btn1image = btn1image.get_rect().move(180, 200)
                     screen.blit(btn1image, rect_btn1image)
                     imagetext2 = font1.render("or", True, GREEN)
                     screen.blit(imagetext2, (300, 215))
-                    btn2image = pygame.image.load("fig/meiro2/quit1.png").convert()
+                    btn2image = pygame.image.load("fig/meiro2/quit.png").convert()
                     rect_btn2image = btn2image.get_rect().move(350, 200)
                     screen.blit(btn2image, rect_btn2image)
                     life = 0.0
@@ -142,7 +142,7 @@ class Player(Spclass):
                         mouse_x, mouse_y = event.pos
                         if mouse_x >= 180 and mouse_x <= 285 and mouse_y >= 200 and mouse_y <= 250:
                             #                            for i in range(5):
-                            btn1image_2 = pygame.image.load("fig/meiro2/retry2.png").convert()
+                            btn1image_2 = pygame.image.load("fig/meiro2/retry.png").convert()
                             rect_btn1image_2 = btn1image_2.get_rect().move(180, 200)
                             screen.blit(btn1image_2, rect_btn1image_2)
                             time.sleep(0.02)
@@ -153,7 +153,7 @@ class Player(Spclass):
                             bgy = -128
                         #                            break
                         elif mouse_x >= 350 and mouse_x <= 455 and mouse_y >= 200 and mouse_y <= 250:
-                            btn2image = pygame.image.load("fig/meiro2/quit1.png").convert()
+                            btn2image = pygame.image.load("fig/meiro2/quit.png").convert()
                             rect_btn2image = btn2image.get_rect().move(350, 200)
                             endflag = 1
                             print("end")
@@ -177,10 +177,14 @@ class Enemy(Spclass):
         if self.walking == 0:
             newdir = -1
             p = np.random.randint(1, 101)
-            if p % 4 == 0: newdir = 0
-            if p % 4 == 1: newdir = 1
-            if p % 4 == 2: newdir = 2
-            if p % 4 == 3: newdir = 3
+            if p % 4 == 0:
+                newdir = 0
+            if p % 4 == 1:
+                newdir = 1
+            if p % 4 == 2:
+                newdir = 2
+            if p % 4 == 3:
+                newdir = 3
             if newdir != -1:
                 newx = int(self.x / size) + x2[newdir]
                 newy = int(self.y / size) + y2[newdir]
@@ -287,7 +291,8 @@ endflag = 0
 #メインループ
 while endflag == 0:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT: endflag = 1  # ウィンドウを閉じた時の処理
+        if event.type == pygame.QUIT:
+            endflag = 1  # ウィンドウを閉じた時の処理
 
     screen.fill(BLACK)
     # 迷路の表示
